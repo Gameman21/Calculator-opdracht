@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body>
+
+<script>
+    function getNumber(prompt) {
+        let input = promptUser(prompt);
+        let num = parseFloat(input);
+
+        if (!isNaN(num)) {
+            return num;
+        } else {
+            console.log("Invalid input. Please enter a valid number.");
+            return getNumber(prompt);
+        }
+    }
+
+    function getOperation() {
+        let operation = promptUser("Enter operation (+, -, *, /): ");
+
+        if (["+", "-", "*", "/"].includes(operation)) {
+            return operation;
+        } else {
+            console.log("Invalid operation. Please enter one of +, -, *, /");
+            return getOperation();
+        }
+    }
+
+    function calculate(num1, num2, operation) {
+        switch (operation) {
+            case '+':
+                return num1 + num2;
+            case '-':
+                return num1 - num2;
+            case '*':
+                return num1 * num2;
+            case '/':
+                if (num2 !== 0) {
+                    return num1 / num2;
+                } else {
+                    console.log("Error: Division by zero is not allowed.");
+                    return null;
+                }
+            default:
+                return null;
+        }
+    }
+
+    function promptUser(question) {
+        return window.prompt(question); // Werkt in de browser
+    }
+
+    // Main loop
+    (function runCalculator() {
+        do {
+            let num1 = getNumber("Enter first number: ");
+            let operation = getOperation();
+            let num2 = getNumber("Enter second number: ");
+
+            let result = calculate(num1, num2, operation);
+
+            if (result !== null) {
+                console.log(`Result: ${result}`);
+                alert(`Result: ${result}`);
+            }
+
+            var continueCalc = promptUser("Do you want to calculate again? (y/n): ");
+        } while (continueCalc.toLowerCase() === 'y');
+
+        console.log("Goodbye!");
+    })();
+
+</script>
+
+</body>
+</html>
